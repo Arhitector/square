@@ -93,6 +93,22 @@ module.exports = function(grunt) {
 			}
 		},
 		watch : {
+			jade: {
+				files: ['<%= loc.jade %>/temp/**/*.jade'],
+				tasks: ['newer:jade'],
+				options: {
+					spawn: false,
+					livereload: true,
+				},
+			},
+			jade_all: {
+				files: ['<%= loc.jade %>/**/*.jade', '<%= loc.jade %>/**/*.json', '!<%= loc.jade %>/temp**/*.jade'],
+				tasks: ['jade'],
+				options: {
+					spawn: false,
+					livereload: true,
+				},
+			},
 			scripts : {
 				files : [
 							'Gruntfile.js',
@@ -103,7 +119,7 @@ module.exports = function(grunt) {
 							'!<%= loc.cssMin %>',
 							'!<%= loc.cssMapPath %>'
 						],
-				tasks	: [CSSBuilder, 'jade'],
+				tasks	: [CSSBuilder],
 				options	: {
 					livereload : {
 						port : 35729
@@ -153,8 +169,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-imagemin');	//min images
 	grunt.loadNpmTasks('grunt-contrib-jade');		//convert jade templates to html
 	grunt.loadNpmTasks('grunt-spritesmith');		//make sprites
+	grunt.loadNpmTasks('grunt-newer');				// watch saved file
 
-	grunt.registerTask('default', ['connect', CSSBuilder, 'jade', 'watch']);
+	grunt.registerTask('default', ['connect', CSSBuilder, 'watch']);
 	grunt.registerTask('run', [CSSBuilder, 'jade']);
 	grunt.registerTask('build', [CSSBuilder, 'jade', 'copy', 'imagemin']);
 

@@ -113,6 +113,7 @@ module.exports = function(grunt) {
 				files : [
 							'Gruntfile.js',
 							'<%= loc.jade %>/**/*.jade',
+							'<%= loc.jade %>/**/*.json',
 							'<%= loc.css %>/**/*.less',
 							'<%= loc.sass %>/**/*.scss',
 							//Ignore files
@@ -150,7 +151,7 @@ module.exports = function(grunt) {
 		},
 		sprite:{
 			all: {
-				src: '<%= loc.images %>/icons/*.png',
+				src: '<%= loc.images %>/for_sprite/*.png',
 				engine: 'pngsmith',
 				cssTemplate: '<%= loc.less %>/lib/sprites/less.template.mustache',
 				destImg: '<%= loc.images %>/spites/spritesheet.png',

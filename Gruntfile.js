@@ -94,7 +94,9 @@ module.exports = function(grunt) {
 		},
 		watch : {
 			jade: {
-				files: ['<%= loc.jade %>/temp/**/*.jade'],
+				files: [
+							'<%= loc.jade %>/temp/**/*.jade'
+						],
 				tasks: ['newer:jade'],
 				options: {
 					spawn: false,
@@ -102,7 +104,10 @@ module.exports = function(grunt) {
 				},
 			},
 			jade_all: {
-				files: ['<%= loc.jade %>/**/*.jade', '<%= loc.jade %>/**/*.json', '!<%= loc.jade %>/temp**/*.jade'],
+				files: [
+							'<%= loc.jade %>/**/*.jade',
+							'!<%= loc.jade %>/temp**/*.jade'
+						],
 				tasks: ['jade'],
 				options: {
 					spawn: false,
@@ -112,7 +117,6 @@ module.exports = function(grunt) {
 			scripts : {
 				files : [
 							'Gruntfile.js',
-							'<%= loc.jade %>/**/*.jade',
 							'<%= loc.jade %>/**/*.json',
 							'<%= loc.css %>/**/*.less',
 							'<%= loc.sass %>/**/*.scss',

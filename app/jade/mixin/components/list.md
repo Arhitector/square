@@ -3,20 +3,26 @@
 ## html
 +list(parametr1, prametr2, prametr3)
 * prametr1 - it's a main class. Mixin itself creates structure
+<code>
 	ul.parametr1
 		li.parametr1+"__item"
 			a.parametr1+"__item__link"
 				text
+</code>
 * prametr2 - it's array
 * prametr3 - it's additional class, you can leave it empty
+<code>
 	ul.parametr1.parametr3
+</code>
 
 # How to create array
 * array must be in *.json file
 * __obligatory condition__ in the project root must be 2 object named "config" && "massElem". Use object "config" to set common parameters for whole project, for example "no_link":"" it's creates structure without link
+<code>
 	ul.parametr1
 		li.parametr1+"__item"
 			text
+</code>
 * count of your elements(in example item1, item2,  and so on) in massElem determine count of  li in the list
 	> "massElem": {
 		"item1": {}

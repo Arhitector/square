@@ -5,8 +5,11 @@
 * prametr1 - it's a main class. Mixin itself creates structure
 <code>
 	ul.parametr1
+
 		li.parametr1+"__item"
+
 			a.parametr1+"__item__link"
+
 				text
 </code>
 * prametr2 - it's array

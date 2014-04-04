@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	var CSSBuilder	= 'sass', //less, sass
+	var CSSBuilder	= 'less', //less, sass
 		pathJade = "app/jade/array/list.json",
 		pkg			= grunt.file.readJSON('package.json');
 
@@ -155,12 +155,12 @@ module.exports = function(grunt) {
 		},
 		sprite:{
 			all: {
-				src: '<%= loc.images %>/for_sprite/*.png',
+				src: '<%= loc.images %>/for_sprite/*',
 				engine: 'pngsmith',
-				cssTemplate: '<%= loc.less %>/lib/sprites/less.template.mustache',
-				destImg: '<%= loc.images %>/spites/spritesheet.png',
-				destCSS: '<%= loc.less %>/modules/sprites.less',
-				cssFormat: 'less'
+				cssTemplate: '<%= loc.css %>/sprites/'+CSSBuilder+'.template.mustache',
+				destImg: '<%= loc.images %>/sprites/spritesheet.png',
+				destCSS: '<%= loc.css %>/'+CSSBuilder+'/modules/sprites.'+CSSBuilder,
+				cssFormat: CSSBuilder
 			}
 		}
 	});

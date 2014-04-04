@@ -5,55 +5,48 @@ mixin list(list_class, array, helper_class)
 		each item, i in array.massElem
 			//- if ISSET additional class in code add it
 			if item.additional_class 
-				li(class=list_class+"_item"+" "+item.additional_class )
+				li(class=list_class+"__item"+" "+item.additional_class )
 					//-  go to next mixin
-					+list_item_add_img_before(list_class, item, array)
+					+list_item_submenu_check(list_class, item, array)
 			else
-				li(class=list_class+"_item" )
+				li(class=list_class+"__item" )
 					//-  go to next mixin
-					+list_item_add_img_before(list_class, item, array)
-
-mixin list_item_add_img_before(list_class, item, array)
-	//- check is it have an image 
-	if item.src 
-		//- add img tag
-		a(class=list_class+"_item_link" href="#")
-			.va
-				img(src="#{item.src}" alt="")
-			//- go to next mixin
-			+list_item_li(list_class, item, array)
-	else
-		//- go to next mixin
-		+list_item_li(list_class, item, array)
-//- 
-mixin list_item_li(list_class, item, array)
-	//- check if it need link for one menu item oк all item 
-	if !array.config.no_link && !item.no_link
-		//- mixin for check to submenu
-		+list_item_submenu_check(list_class, item, array)
-	else
-		+list_item(item)
-
+					+list_item_submenu_check(list_class, item, array)
+//- checking for submenu
 mixin list_item_submenu_check (list_class, item, array)
-	//- if need link for one menu item
-	if !item.submenu
-		//- add link 
-		a(class=list_class+"_item_link" href="#")
-			+list_item(item)
-	else
-		a(class=list_class+"_item_link" href="#")
-			+list_item(item)
-		+list(item.submenu_class, item.submenu, "")
+	if item.submenu
+		+list_item_link(list_class, item, array)
+		+list(list_class+"__submenu", item.submenu, "")
 
-mixin list_item (item)
-	//- add span for next words in item with class by key
+	else
+		+list_item_link(list_class, item, array)
+
+//- checking of need of the link
+mixin list_item_link(list_class, item, array)
+	if array.config.no_link && !item.need_link || item.no_link
+		+list_check_for_object(list_class, item, array)
+	else
+		if item.additional_class
+			a(class=list_class+"__item__link "+item.additional_class+"__link" href="#")
+				+list_check_for_object(list_class, item, array)
+		else
+			a(class=list_class+"__item__link" href="#")
+				+list_check_for_object(list_class, item, array)
+
+//- checking item for object
+mixin list_check_for_object(list_class, item, array)
 	if item.val == "[object Object]"
-		each item_item, i in item.val
-			//- add span with class
-			if i != "inval1"
-				span(class=i) #{item_item} 
-			else
-				| #{item_item} 
+		+list_object_sort(list_class, item.val, array)
 	else
-		| #{item.val}
+		+list_item(list_class, item.val, array)
 
+mixin list_item(list_class, item, array)
+	//- add span for next words in item with class by key
+	if item.indexOf(".png") != -1 || item.indexOf(".jpg") != -1 || item.indexOf(".gif") != -1
+		img(src="#{item}"  class=list_class+"__item__link__img" alt="image")
+	else
+		| #{item}
+
+mixin list_object_sort(list_class, item, array)
+	each item_deep, i in item
+		+list_item(list_class, item_deep, array)

@@ -108,23 +108,25 @@ module.exports = function(grunt) {
 							'<%= loc.jade %>/**/*.jade',
 							'!<%= loc.jade %>/temp**/*.jade'
 						],
+
 				tasks: ['jade'],
 				options: {
 					spawn: false,
 					livereload: true,
+					data: grunt.file.readJSON(pathJade)
 				},
 			},
 			scripts : {
 				files : [
 							'Gruntfile.js',
-							'<%= loc.jade %>/**/*.json',
 							'<%= loc.css %>/**/*.less',
+							'<%= loc.jade %>/**/*.json',
 							'<%= loc.sass %>/**/*.scss',
 							//Ignore files
 							'!<%= loc.cssMin %>',
 							'!<%= loc.cssMapPath %>'
 						],
-				tasks	: [CSSBuilder],
+				tasks	: [CSSBuilder, 'jade'],
 				options	: {
 					livereload : {
 						port : 35729

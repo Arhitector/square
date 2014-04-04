@@ -2,6 +2,7 @@
 
 Modules:
 - jade
+- sprites
 - less (or sass), less by default
 - image minifier
 - livereload
@@ -28,3 +29,9 @@ Reload works while maintaining and autobuild sass, less files.
 - if you need one of the languages in your project it's better to disable the second one to avoid errors (see the file Gruntfile.js and params "CSSBuilder").
 - use one common file to import less or sass styles (require for sourcemap) all.less, all.scss
 
+###SASS
+	1. change var CSSBuilder to 'sass'
+	2. install Ruby http://www.rubyinstaller.org/downloads/
+	- Don't forget to note add ruby into PATH
+	3. in consol do 'gem install sass'
+	4. enjoy

@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	color: $base-color;
 	background: $base-bg;
-	font: #{$base-font-size}/#{$base-line-height} $base-font-family;
+	font: $base-font-size $base-font-family;
 }
 img {
 	border-style: none;
@@ -18,9 +18,15 @@ input, textarea, select {
 	font: 100% $base-font-size;
 	vertical-align: middle;
 	color: #000;
+	&:focus {
+		outline: none;
+	}
 }
 form, fieldset {
 	margin: 0;
 	padding: 0;
 	border-style: none;
+}
+header, nav, section, article, aside, footer {
+	display:block;
 }

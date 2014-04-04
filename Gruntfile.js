@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	var CSSBuilder	= 'less', //less, sass
+	var CSSBuilder	= 'sass', //less, sass
 		pathJade = "app/jade/array/list.json",
 		pkg			= grunt.file.readJSON('package.json');
 

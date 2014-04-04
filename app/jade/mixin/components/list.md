@@ -15,26 +15,31 @@
 	ul.parametr1.parametr3
 </code>
 
-# How to create array
+# How to create array #
 * array must be in *.json file
-* __obligatory condition__ in the project root must be 2 object named "config" && "massElem". Use object "config" to set common parameters for whole project, for example "no_link":"" it's creates structure without link
+* __obligatory condition__ in the project root must be 2 object named "config" && "massElem". Use object "config" to set common parameters for whole project, for example "no_link":"" it's creates structure without link. 
+
 <code>
 	ul.parametr1
 		li.parametr1+"__item"
 			text
 </code>
+
 * count of your elements(in example item1, item2,  and so on) in massElem determine count of  li in the list
+
+<code>
 	> "massElem": {
-		"item1": {}
-		"item2": {}
-		"item3": {}
-	}
+	>> "item1": {}
+	>> "item2": {}
+	>> "item3": {}
+	>}
 	=>
-	<ul>
-		<li></li>
-		<li></li>
-		<li></li>
-	</ul>
+	><ul>
+	>> <li></li>
+	>> <li></li>
+	>> <li></li>
+	></ul>
+</code>
 * __obligatory condition__ each object "item" must have object "val", it's your text value
 * if "val" has a path to picture in format */**/*.png */**/*.jpg */**/*.gif it creates image with this path
 	"val": "./path/img.png" => <img src="./path/img.png" alt="image" />

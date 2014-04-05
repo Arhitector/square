@@ -4,6 +4,7 @@
 +list(parametr1, prametr2, prametr3)
 * prametr1 - it's a main class. Mixin itself creates structure
 <code>
+
 	ul.parametr1
 
 		li.parametr1+"__item"
@@ -23,19 +24,25 @@
 * __obligatory condition__ in the project root must be 2 object named "config" && "massElem". Use object "config" to set common parameters for whole project, for example "no_link":"" it's creates structure without link. 
 
 <code>
+
 	ul.parametr1
+
 		li.parametr1+"__item"
+
 			text
 </code>
 
 * count of your elements(in example item1, item2,  and so on) in massElem determine count of  li in the list
 
 <code>
-	> "massElem": {
-	>> "item1": {}
-	>> "item2": {}
-	>> "item3": {}
-	>}
+	"massElem": {
+
+		"item1": {}
+
+		"item2": {}
+
+		"item3": {}
+	}
 	=>
 	><ul>
 	>> <li></li>

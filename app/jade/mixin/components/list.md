@@ -16,6 +16,7 @@
 * prametr2 - it's array
 * prametr3 - it's additional class, you can leave it empty
 <code>
+
 	ul.parametr1.parametr3
 </code>
 
@@ -24,6 +25,7 @@
 * __obligatory condition__ in the project root must be 2 object named "config" && "massElem". Use object "config" to set common parameters for whole project, for example "no_link":"" it's creates structure without link. 
 
 <code>
+
 	ul.parametr1
 
 		li.parametr1+"__item"
@@ -53,13 +55,18 @@
 * __obligatory condition__ each object "item" must have object "val", it's your text value
 * if "val" has a path to picture in format */**/*.png */**/*.jpg */**/*.gif it creates image with this path
 <code>
+
 	"val": "./path/img.png" => <img src="./path/img.png" alt="image" />
 </code>
 * if "val" as an object 
 <code>
+
 	"val": {
+
 		"image": "image.png",
+
 		"qwer": "some new text"
+
 	}
 </code>
 	it also create from "image.png" an image, and text from "some new text"
@@ -68,18 +75,28 @@
 - "need_link":"some text" create element with link (if global set "nolink")
 - "additional_class": "className" where "className" the name of additional class 
 <code>
+
 	li.main_class__item.additionall_class
+
 		a.main_class__item__link.additionall_class__link
 </code>
 - "submenu":{ array } "array" has the same structure as whole project (recursion used in mixin)
 <code>
+
 	"submenu": {
+
 		"config": {},
+
 		"massElem": {
+
 			"item1": {
+
 				"val": "Sub Home"
+
 			}
+
 		}
+
 	}
 </code>
 ## Example of array

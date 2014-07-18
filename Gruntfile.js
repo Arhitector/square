@@ -1,6 +1,7 @@
+var jadeInherit = require('./tasks/jadeInherit.js');
+
 module.exports = function(grunt) {
 	var CSSBuilder	= 'less', //less, sass
-		pathJade = "app/jade/array/list.json",
 		pkg			= grunt.file.readJSON('package.json');
 
 	grunt.initConfig({
@@ -12,7 +13,9 @@ module.exports = function(grunt) {
 			css					: '<%= loc.root %>/css',
 			less				: '<%= loc.css %>/less',
 			sass				: '<%= loc.css %>/sass',
+			json				: '<%= loc.jade %>/source/json',
 			images				: '<%= loc.root %>/images',
+			img_sprite			: '<%= loc.images %>/for_sprite',
 
 			cssMinName			: 'all.min.css',
 			cssMapName			: '<%= loc.cssMinName %>.map',
@@ -24,6 +27,12 @@ module.exports = function(grunt) {
 			sassMain			: '<%= loc.sass %>/all.scss',
 			
 			imagesMin			: '<%= loc.build %>/images'
+		},
+		"merge-json": {
+			"common": {
+				src: ["<%= loc.json %>/collection/*.json"],
+				dest: "<%= loc.json %>/common.json"
+			}
 		},
 		less : {
 			dist : {
@@ -67,71 +76,70 @@ module.exports = function(grunt) {
 		jade : {
 			compile: {
 				options:{
-					pretty: true,
-					client: false,
-					data: grunt.file.readJSON(pathJade)
+					pretty	: true,
+					client	: false,
+					data	: function () {
+						var loc = grunt.config('loc');
+						return grunt.file.readJSON(loc.json + '/common.json');
+					}
 				},
-				files: [ {
-				  src: "**/*.jade",
-				  dest: "<%= loc.markup %>",
-				  cwd: "<%= loc.jade %>/temp",
-				  expand: true,
-				  ext: ".html"
-				} ]
-			}
-		},
-		clean : {
-			clear : {
-				src : [
-					'<%= loc.cssMin %>',
-					'<%= loc.cssMapPath %>',
-					'<%= loc.build %>',
-					'node_modules',
-					'build',
-					'npm-debug.log'
-				]
+				files: [{
+					src : [
+						'*.jade',
+						'!source/**/*.jade'
+					],
+					dest	: '<%= loc.markup %>',
+					cwd		: '<%= loc.jade %>',
+					expand	: true,
+					ext		: '.html',
+					rename: function(destBase, destPath) {
+						var index = destPath.lastIndexOf('/');
+						if (index !== -1 && destPath.slice) {
+							destPath = destPath.slice(index + 1, destPath.length);
+						}
+						return destBase + '/' + destPath.replace(/\.jade$/, '.html');
+					}
+				}]
 			}
 		},
 		watch : {
-			jade: {
-				files: [
-							'<%= loc.jade %>/temp/**/*.jade'
-						],
-				tasks: ['newer:jade'],
-				options: {
-					spawn: false,
-					livereload: true,
-				},
+			options: {
+				livereload: true
 			},
-			jade_all: {
-				files: [
-							'<%= loc.jade %>/**/*.jade',
-							'!<%= loc.jade %>/temp**/*.jade'
-						],
-
+			all: {
+				files: ['./Gruntfile.js'],
+				tasks: ['all']
+			},
+			jade: {
+				files: ['<%= loc.jade %>/**/*.jade'],
 				tasks: ['jade'],
 				options: {
-					spawn: false,
-					livereload: true,
-					data: grunt.file.readJSON(pathJade)
-				},
-			},
-			scripts : {
-				files : [
-							'Gruntfile.js',
-							'<%= loc.css %>/**/*.less',
-							'<%= loc.jade %>/**/*.json',
-							'<%= loc.sass %>/**/*.scss',
-							//Ignore files
-							'!<%= loc.cssMin %>',
-							'!<%= loc.cssMapPath %>'
-						],
-				tasks	: [CSSBuilder, 'jade'],
-				options	: {
-					livereload : {
-						port : 35729
-					}
+					nospawn: true
 				}
+			},
+			css: {
+				files: [
+					'<%= loc.css %>/**/*.less',
+					'<%= loc.sass %>/**/*.scss',
+					//Ignore files
+					'!<%= loc.cssMin %>',
+					'!<%= loc.cssMapPath %>'
+				],
+				tasks: [CSSBuilder]
+			},
+			json: {
+				files: [
+					'<%= loc.json %>/**/*.json'
+				],
+				tasks: ['merge-json']
+			},
+			sprites: {
+				files: [
+					'<%= loc.img_sprite %>/**/*.png',
+					'<%= loc.img_sprite %>',
+					'!<%= loc.images %>/sprites/**/*.png'
+				],
+				tasks: ['sprites', CSSBuilder]
 			}
 		},
 		connect : {
@@ -139,7 +147,7 @@ module.exports = function(grunt) {
 				options: {
 					port		: 8080,
 					livereload	: true,
-					base		: '<%= loc.root %>'
+					base		: '<%= loc.markup %>'
 				}
 			}
 		},
@@ -155,17 +163,40 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-		sprite:{
-			all: {
-				src: '<%= loc.images %>/for_sprite/*',
-				engine: 'pngsmith',
-				cssTemplate: '<%= loc.css %>/sprites/'+CSSBuilder+'.template.mustache',
-				destImg: '<%= loc.images %>/sprites/spritesheet.png',
-				destCSS: '<%= loc.css %>/'+CSSBuilder+'/modules/sprites.'+CSSBuilder,
-				cssFormat: CSSBuilder
+		clean : {
+			clear : {
+				src : [
+					'<%= loc.cssMin %>',
+					'<%= loc.cssMapPath %>',
+					'<%= loc.build %>',
+					'node_modules',
+					'build',
+					'npm-debug.log'
+				]
+			}
+		},
+		sprites : {
+			options : {
+				baseDir : '<%= loc.img_sprite %>',
+				initSpritesmithConfig : function(folderName) {
+					var loc = grunt.config('loc');
+
+					return {
+						engine : 'pngsmith',
+						cssTemplate: loc.css + '/sprites/' + CSSBuilder + '.template.mustache',
+						destImg : loc.images + '/sprites/' + folderName + '.png',
+						imgPath: '../images/sprites/' + folderName + '.png',
+						destCSS : loc.css + '/' + CSSBuilder + '/modules/' + '_sprite_' + folderName + '.' + CSSBuilder,
+						cssFormat : CSSBuilder
+					};
+				}
 			}
 		}
 	});
+
+
+//JADE inherit
+	jadeInherit(grunt);
 
 	grunt.loadNpmTasks('grunt-contrib-clean');		//clean other files
 	grunt.loadNpmTasks('grunt-contrib-less');		//convert less files to css
@@ -175,12 +206,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');		//copy files
 	grunt.loadNpmTasks('grunt-contrib-imagemin');	//min images
 	grunt.loadNpmTasks('grunt-contrib-jade');		//convert jade templates to html
-	grunt.loadNpmTasks('grunt-spritesmith');		//make sprites
-	grunt.loadNpmTasks('grunt-newer');				// watch saved file
+	grunt.loadNpmTasks('grunt-sprites');			//make sprites
+	grunt.loadNpmTasks('grunt-merge-json');			//include json
 
-	grunt.registerTask('default', ['connect', CSSBuilder, 'watch']);
-	grunt.registerTask('run', [CSSBuilder, 'jade']);
-	grunt.registerTask('build', [CSSBuilder, 'jade', 'copy', 'imagemin']);
+	grunt.registerTask('default', ['connect', 'merge-json', 'sprites', CSSBuilder, 'jade', 'watch']);
+	grunt.registerTask('all', ['sprites', CSSBuilder, 'jade', 'imagemin']);
 
+	grunt.registerTask('copy', [CSSBuilder, 'jade', 'imagemin', 'copy']);
 	grunt.registerTask('clear', ['clean:clear']);
 };

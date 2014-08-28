@@ -1,0 +1,120 @@
+.content {
+	padding: 12px;
+	border-radius: 30px;
+	background-color: #5c5652;
+	margin: 0 auto;
+	.square(536px);
+}
+.content__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 536px;
+	overflow: hidden;
+	position: relative;
+	
+}
+.content__list__item {
+	border-radius: 20px;
+	float: left;
+	position: relative;
+	.square(275px);
+	&.content__list__item_tl {
+		z-index: 100;
+		clip: rect(0, 316px, 261px, 250px);
+		position: absolute;
+		top: 0; left: 0;
+		.content__list__item__title {
+			.transform(rotate(90deg));
+			top: 120px; right: -118px;
+		}
+	}
+	&.content__list__item_tr {
+		z-index: 99;
+		position: absolute;
+		top: 0; right: 0;
+		.content__list__item__title {
+			bottom: -40px; right: 40px;
+			border-radius: 0 0 14px 14px;
+		}
+	}
+	&.content__list__item_bl {
+		z-index: 97;
+		position: absolute;
+		bottom: 0; left: 0;
+		.content__list__item__title {
+			top: -40px; right: 40px;
+		}
+		&:hover + .content__list__item_tl {
+			display: none;
+		}
+	}
+	&.content__list__item_br {
+		z-index: 98;
+		position: absolute;
+		bottom: 0; right: 0;
+		.content__list__item__title {
+			.transform(rotate(-90deg));
+			top: 120px; left: -118px;
+		}
+	}
+	&.content__list__item_abs {
+		position: absolute;
+		background: url('@{bg_path}/bg_img1.png') 0 0 no-repeat;
+		top: 0; left: 0;
+		.bg-size(275px 275px);
+	}
+}
+.content__list__item__bg-image {
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	.square(275px);
+}
+.content__list__item__title {
+	color: #fff;
+	font-size: 12px;
+	text-shadow: 2px 1px 0 rgba(75,75,75,.75);
+	text-transform: uppercase;
+	background-color: #232328;
+	position: absolute;
+	z-index: 10;
+	cursor: pointer;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 14px 14px 0 0;
+	.size(198px, 40px);
+}
+.content__list__item__title__inner {
+	&:before {
+		content: '';
+		color: #000;
+		position: absolute;
+		background-color: #fff;
+		border-radius: 10px;
+		font-size: 34px;
+		top: 16px; left: 50px;
+		display: inline-block;
+		.square(9px);
+	}
+}
+
+
+.footer_text {
+	opacity: .72;
+	color: #7b7773;
+	font-family: "Tahoma";
+	font-size: 10px;
+	width: 500px;
+	margin: 20px auto 56px;
+}
+.footer_text__list {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+.footer_text__list__item {
+	display: inline-block;
+}
+.footer_text__list__item__link {
+	color: #7b7773;
+}

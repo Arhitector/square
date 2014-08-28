@@ -1,9 +1,42 @@
 extends ./source/extend/maintemp.jade
-include ./source/mixin/components/list.jade
+
+
 
 block header
-	h1 header
+	.logo photo portfolio
+	.logo-bottom by elisabeth simpson
 block content
-	p content
+	include ./source/var.jade
+	ul.content__list
+		li.content__list__item.content__list__item_tl
+			img(src="#{bg_path}/bg_img1.png" alt="").content__list__item__bg-image
+			.content__list__item__title
+				span.content__list__item__title__inner home page
+			.content__list__item__title_buble
+		li.content__list__item.content__list__item_tr
+			img(src="#{bg_path}/bg_img2.png" alt="").content__list__item__bg-image
+			.content__list__item__title 
+				span.content__list__item__title__inner contacts
+			.content__list__item__title_buble
+		li.content__list__item.content__list__item_bl
+			img(src="#{bg_path}/bg_img3.png" alt="").content__list__item__bg-image
+			.content__list__item__title 
+				span.content__list__item__title__inner portfolio
+			.content__list__item__title_buble
+		li.content__list__item.content__list__item_br
+			img(src="#{bg_path}/bg_img4.png" alt="").content__list__item__bg-image
+			.content__list__item__title 
+				span.content__list__item__title__inner about me
+			.content__list__item__title_buble
+		li.content__list__item.content__list__item_abs
 
 block footer
+	.footer_text
+		|Photo Portfolio © 2007 
+		ul.footer_text__list
+			li.footer_text__list__item 
+				a(href="#").footer_text__list__item__link Privacy Policy
+			li.footer_text__list__item 
+				a(href="#").footer_text__list__item__link Terms Of Use
+
+
